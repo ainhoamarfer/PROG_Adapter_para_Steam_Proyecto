@@ -46,17 +46,27 @@ public final class AdapterFactory {
         ITransactionManager tm = new HibernateTransactionManager();
 
         tm.inTransaction(() -> {
-
+            var session = ((ISesionManager)tm).getSession();
            //Borrar tabla de Usuarios
-            ((ISesionManager)tm).getSession().createMutationQuery("DELETE FROM Usuario").executeUpdate();
+
+            var cb = session.getCriteriaBuilder();
+            var cu = cb.createCriteriaDelete(org.ainhoamarfer.modelo.entidad.UsuarioEntidad.class);
+            session.createMutationQuery(cu).executeUpdate();
             //Borrar tabla de Juegos
-            ((ISesionManager)tm).getSession().createMutationQuery("DELETE FROM Juego").executeUpdate();
+
+            var cj = cb.createCriteriaDelete(org.ainhoamarfer.modelo.entidad.JuegoEntidad.class);
+            session.createMutationQuery(cj).executeUpdate();
             //Borrar tabla de Compras
-            ((ISesionManager)tm).getSession().createMutationQuery("DELETE FROM Compra").executeUpdate();
+
+            var cc = cb.createCriteriaDelete(org.ainhoamarfer.modelo.entidad.CompraEntidad.class);
+            session.createMutationQuery(cc).executeUpdate();
             //Borrar tabla de Reseñas
-            ((ISesionManager)tm).getSession().createMutationQuery("DELETE FROM Resena").executeUpdate();
+            var cr = cb.createCriteriaDelete(org.ainhoamarfer.modelo.entidad.ResenaEntidad.class);
+            session.createMutationQuery(cr).executeUpdate();
+            ((ISesionManager)tm).getSession().createMutationQuery(cr).executeUpdate();
             //Borrar tabla de Bibliotecas
-            ((ISesionManager)tm).getSession().createMutationQuery("DELETE FROM Biblioteca").executeUpdate(); 
+            var cbl = cb.createCriteriaDelete(org.ainhoamarfer.modelo.entidad.BibliotecaEntidad.class);
+            session.createMutationQuery(cbl).executeUpdate();
             return null;
         });
 
